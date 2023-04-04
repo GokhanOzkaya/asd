@@ -22,7 +22,7 @@ class Iskele extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gökhan Özkaya Commit1'),
+        title: Text('Gökhan Özkaya Pull Request'),
       ),
       body: AnaEkranState(),
     );
