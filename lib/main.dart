@@ -5,37 +5,121 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHomePageState());
+    return const MaterialApp(
+      home: Iskele(),
+    );
   }
 }
 
-class MyHomePageState extends StatefulWidget {
-  const MyHomePageState({Key? key}) : super(key: key);
+class Iskele extends StatelessWidget {
+  const Iskele({Key? key}) : super(key: key);
 
-  @override
-  State<MyHomePageState> createState() => _MyHomePageStateState();
-}
-
-class _MyHomePageStateState extends State<MyHomePageState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('''Gökhan Özkaya'nın Commiti''')),
-      body: Center(
-        child: Text(
-            'Gökhan Özkayanın F69 Commiti-0',
-          textScaleFactor: 1.5,
-        ),
+      appBar: AppBar(
+        title: Text('Gökhan Özkaya Commit1'),
+      ),
+      body: AnaEkranState(),
+    );
+  }
+}
+
+class AnaEkranState extends StatefulWidget {
+  const AnaEkranState({Key? key}) : super(key: key);
+
+  @override
+  State<AnaEkranState> createState() => _AnaEkranStateState();
+}
+
+class _AnaEkranStateState extends State<AnaEkranState> {
+  num num1 = 0 ;
+  num num2 = 0 ;
+  num sonuc = 0 ;
+
+  TextEditingController text1 = TextEditingController();
+  TextEditingController text2 = TextEditingController();
+
+  sayiTopla() {
+    setState(() {
+      num1 = num.parse(text1.text);
+      num2 = num.parse(text2.text);
+      sonuc = num1+num2;
+    });
+  }
+  sayiCikar() {
+    setState(() {
+      num1 = num.parse(text1.text);
+      num2 = num.parse(text2.text);
+      sonuc = num1-num2;
+    });
+  }
+  sayiBol() {
+    setState(() {
+      num1 = num.parse(text1.text);
+      num2 = num.parse(text2.text);
+      sonuc = num1/num2;
+    });
+  }
+  sayiCarp() {
+    setState(() {
+      num1 = num.parse(text1.text);
+      num2 = num.parse(text2.text);
+      sonuc = num1*num2;
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          TextField(controller: text1,),
+          TextField(controller: text2,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: sayiTopla,
+                child: Text('Topla'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  sayiCikar();
+                },
+                child: Text('Çıkar'),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  sayiBol();
+                },
+                child: Text('Böl'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  sayiCarp();
+                },
+                child: Text('Çarp'),
+              ),
+            ],
+          ),
+          Text(sonuc.toString()),
+        ],
       ),
     );
   }
 }
+
+
