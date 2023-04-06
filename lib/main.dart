@@ -22,7 +22,7 @@ class Iskele extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('İsmail Erdoğan'),
+        title: Text('İrem Deneme123'),
       ),
       body: AnaEkranState(),
     );
