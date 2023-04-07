@@ -1,50 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MaterialApp(home: BottomNavBar()));
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class BottomNavBar extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Iskele(),
-    );
-  }
+  _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-class Iskele extends StatelessWidget {
-  const Iskele({Key? key}) : super(key: key);
+class _BottomNavBarState extends State<BottomNavBar> {
+  int _page = 2;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Bos Deneme123'),
-      ),
-      body: AnaEkranState(),
-    );
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 2,
+          height: 60.0,
+          items: <Widget>[
+            Icon(Icons.add, size: 30),
+            Icon(Icons.list, size: 30),
+            Icon(Icons.compare_arrows, size: 30),
+            Icon(Icons.call_split, size: 30),
+            Icon(Icons.perm_identity, size: 30),
+          ],
+          color: Colors.white,
+          buttonBackgroundColor: Colors.white,
+          backgroundColor: Colors.blueAccent,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+          },
+          letIndexChange: (index) => true,
+        ),
+        body: Container(
+          color: Colors.blueAccent,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(_page.toString(), textScaleFactor: 10.0),
+                ElevatedButton(
+                  child: Text('Go To Page of index 1'),
+                  onPressed: () {
+                    final CurvedNavigationBarState? navBarState =
+                        _bottomNavigationKey.currentState;
+                    navBarState?.setPage(1);
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
-
-class AnaEkranState extends StatefulWidget {
-  const AnaEkranState({Key? key}) : super(key: key);
-
-  @override
-  State<AnaEkranState> createState() => _AnaEkranStateState();
-}
-
-class _AnaEkranStateState extends State<AnaEkranState> {
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-
-    );
-  }
-}
-
-
