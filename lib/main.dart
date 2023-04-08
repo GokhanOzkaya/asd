@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fteamdeneme/a.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+
 
 void main() => runApp(MaterialApp(home: HomePage()));
 
@@ -161,12 +167,6 @@ class _ThirdPageState extends State<ThirdPage> {
           ),
         ),
         trailing: GestureDetector(
-          onTap:() async {
-            await showDialog(
-              context: context,
-              builder: (_) => AddAlarmDialog(),
-            );
-          },
             child: Icon(Icons.alarm_add,)
         ),
       ),
@@ -270,84 +270,39 @@ class _ThirdPageState extends State<ThirdPage> {
                 return buildCard(index, selectedMonth);
               },
             ),
-          )],
-      ),
-    );
-  }
-}
-
-class AddAlarmDialog extends StatefulWidget {
-  const AddAlarmDialog({Key? key}) : super(key: key);
-
-  @override
-  State<AddAlarmDialog> createState() => _AddAlarmDialogState();
-}
-
-class _AddAlarmDialogState extends State<AddAlarmDialog> {
-  late TextEditingController _titleController;
-  late TimeOfDay _selectedTime;
-
-  @override
-  void initState() {
-    super.initState();
-    _titleController = TextEditingController();
-    _selectedTime = TimeOfDay.now();
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Add Alarm'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _titleController,
-            decoration: InputDecoration(hintText: 'Enter alarm title'),
           ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () async {
-              final selectedTime = await showTimePicker(
-                context: context,
-                initialTime: _selectedTime,
-              );
-              if (selectedTime != null) {
-                setState(() {
-                  _selectedTime = selectedTime;
-                });
-              }
-            },
-            child: Text('Select Time'),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  int checkedCount = 0;
+                  gorevveri1.getGorevlerForMonth(selectedMonth).forEach((gorev) {
+                    if (gorev.tamamlandiMi) checkedCount++;
+                  });
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Seçili görev sayısı: $checkedCount"),
+                        content: Text("İçerik"),
+                        actions: [
+                          TextButton(
+                            child: Text("Tamam"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text('asf'),
+              )
+            ],
           ),
-          SizedBox(height: 16),
-          Text('Selected Time: ${_selectedTime.format(context)}'),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final title = _titleController.text.trim();
-            if (title.isNotEmpty) {
-              // TODO: Save alarm
-              Navigator.of(context).pop();
-            }
-          },
-          child: Text('Save'),
-        ),
-      ],
     );
   }
 }
