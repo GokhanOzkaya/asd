@@ -160,11 +160,14 @@ class _ThirdPageState extends State<ThirdPage> {
             decoration: isChecked ? TextDecoration.lineThrough : TextDecoration.none,
           ),
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.alarm_add),
-          onPressed: () {
-            // add alarm
+        trailing: GestureDetector(
+          onTap:() async {
+            await showDialog(
+              context: context,
+              builder: (_) => AddAlarmDialog(),
+            );
           },
+            child: Icon(Icons.alarm_add,)
         ),
       ),
     );
@@ -238,6 +241,19 @@ class _ThirdPageState extends State<ThirdPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  iconSize: 50.0,
+                                  color: Colors.white,
+                                  icon: Icon(Icons.analytics),
+                                  onPressed: () {
+                                    // Icon'a tıklanınca yapılacak işlemler buraya yazılır
+                                  },
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -256,6 +272,82 @@ class _ThirdPageState extends State<ThirdPage> {
             ),
           )],
       ),
+    );
+  }
+}
+
+class AddAlarmDialog extends StatefulWidget {
+  const AddAlarmDialog({Key? key}) : super(key: key);
+
+  @override
+  State<AddAlarmDialog> createState() => _AddAlarmDialogState();
+}
+
+class _AddAlarmDialogState extends State<AddAlarmDialog> {
+  late TextEditingController _titleController;
+  late TimeOfDay _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController();
+    _selectedTime = TimeOfDay.now();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Add Alarm'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _titleController,
+            decoration: InputDecoration(hintText: 'Enter alarm title'),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () async {
+              final selectedTime = await showTimePicker(
+                context: context,
+                initialTime: _selectedTime,
+              );
+              if (selectedTime != null) {
+                setState(() {
+                  _selectedTime = selectedTime;
+                });
+              }
+            },
+            child: Text('Select Time'),
+          ),
+          SizedBox(height: 16),
+          Text('Selected Time: ${_selectedTime.format(context)}'),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final title = _titleController.text.trim();
+            if (title.isNotEmpty) {
+              // TODO: Save alarm
+              Navigator.of(context).pop();
+            }
+          },
+          child: Text('Save'),
+        ),
+      ],
     );
   }
 }
