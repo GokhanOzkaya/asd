@@ -198,40 +198,48 @@ class _ThirdPageState extends State<ThirdPage> {
                 return SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      width: 360,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.blue,
-                            Colors.white10,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 5), // vertical shadow
+                    child: GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          selectedMonth = index + 1; // ay indeksleri 0'dan başladığı için 1 eklemelisiniz
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        width: 360,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blue,
+                              Colors.white10,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${gorevveri1.aylar[index]}',
-                            style: TextStyle(
-                              fontSize: 35,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 5), // vertical shadow
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              '${gorevveri1.aylar[index]}',
+                              style: TextStyle(
+                                fontSize: 35,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -239,14 +247,14 @@ class _ThirdPageState extends State<ThirdPage> {
               },
             ),
           ),
-      Expanded(
-        child: ListView.builder(
-          itemCount: gorevveri1.getGorevlerForMonth(selectedMonth).length,
-          itemBuilder: (BuildContext context, int index) {
-            return buildCard(index, selectedMonth);
-          },
-        ),
-      )],
+          Expanded(
+            child: ListView.builder(
+              itemCount: gorevveri1.getGorevlerForMonth(selectedMonth).length,
+              itemBuilder: (BuildContext context, int index) {
+                return buildCard(index, selectedMonth);
+              },
+            ),
+          )],
       ),
     );
   }
