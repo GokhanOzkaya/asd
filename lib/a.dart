@@ -9,10 +9,10 @@ class GorevVeri {
   List<List<Gorev>> _gorevler = [
     [
       Gorev(ad: 'Oryantasyon buluşmasına katıl.', tamamlandiMi: false),
-      Gorev(ad: 'Unity Giriş Eğitimini %100 tamamla.(ZORUNLU)', tamamlandiMi: true),
+      Gorev(ad: 'Unity Giriş Eğitimini %100 tamamla.(ZORUNLU)', tamamlandiMi: false),
       Gorev(ad: 'Yazılımcılar için İngilizce derslerinin 2 modülünü tamamla. (SEÇENLER İÇİN ZORUNLU)', tamamlandiMi: false),
       Gorev(ad: 'Teknoloji Girişimciliği Eğitimlerinin %50’sini tamamla. Tüm eğitimler toplamda 12 saat, 6 saatini tamamla.(ZORUNLU)', tamamlandiMi: false),
-      Gorev(ad: 'Google Proje Yönetimi Eğitimlerinin 1. kursunu  tamamla.(ZORUNLU)', tamamlandiMi: true),
+      Gorev(ad: 'Google Proje Yönetimi Eğitimlerinin 1. kursunu  tamamla.(ZORUNLU)', tamamlandiMi: false),
       Gorev(ad: "Networking atölyesini tamamla. 1'ine katılım yeterli.", tamamlandiMi: false),
       Gorev(ad: 'Sosyal Beceri Eğitimlerine katıl', tamamlandiMi: false),
       Gorev(ad: 'Kariyer Buluşması’na katıl.', tamamlandiMi: true),

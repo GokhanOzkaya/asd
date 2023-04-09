@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fteamdeneme/a.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fteamdeneme/noti.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() => runApp(MaterialApp(home: HomePage()));
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+void main()  {runApp(MaterialApp(home: HomePage()));}
+//void main() => runApp(MaterialApp(home: HomePage()));
 
 class HomePage extends StatefulWidget {
   @override
@@ -119,6 +128,7 @@ class _ThirdPageState extends State<ThirdPage> {
   void initState() {
     super.initState();
     scrollController = ScrollController(initialScrollOffset: (360) * (selectedMonth - 1));
+    Noti.initialize(flutterLocalNotificationsPlugin);
   }
 
   Card buildCard(int index, int month) {
@@ -276,15 +286,15 @@ class _ThirdPageState extends State<ThirdPage> {
               ElevatedButton(
                 onPressed: () {
                   int checkedCount = 0;
-                  gorevveri1.getGorevlerForMonth(selectedMonth).forEach((gorev) {
+                  List<Gorev> selectedGorevler = gorevveri1.getGorevlerForMonth(selectedMonth);
+                  selectedGorevler.forEach((gorev) {
                     if (gorev.tamamlandiMi) checkedCount++;
                   });
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text("Seçili görev sayısı: $checkedCount"),
-                        content: Text("İçerik"),
+                        title: Text("Seçili görev sayısı: $checkedCount / Toplam görev sayısı: ${selectedGorevler.length}"),
                         actions: [
                           TextButton(
                             child: Text("Tamam"),
@@ -297,8 +307,12 @@ class _ThirdPageState extends State<ThirdPage> {
                     },
                   );
                 },
-                child: Text('asf'),
-              )
+                child: Text('İstatistik'),
+              ),
+              ElevatedButton(onPressed: () {  
+                Noti.showBigTextNotification(title: 'Ok hırrımı', body: 'takım gibi ananzı', fln: flutterLocalNotificationsPlugin);
+              },
+              child : Text('Bildirim yolla'))
             ],
           ),
         ],
